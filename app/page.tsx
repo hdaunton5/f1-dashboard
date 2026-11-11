@@ -187,9 +187,6 @@ export default async function Home() {
   const leaderTeamPts = Number(teams[0]?.points ?? 0);
 
   const next = nextRace ? raceMoment(nextRace) : null;
-  const days = next
-    ? Math.max(0, Math.ceil((next.when.getTime() - Date.now()) / 86400000))
-    : 0;
 
   const podium = lastRace?.Results.slice(0, 3) ?? [];
   const podiumSlots = [
@@ -271,11 +268,6 @@ export default async function Home() {
                       </>
                     )}
                   </dl>
-                  <p
-                    className={`${D} mt-6 border-t border-white/15 pt-4 text-3xl font-bold`}
-                  >
-                    {days === 0 ? "Race day" : `${plural(days, "day")} to go`}
-                  </p>
                 </>
               ) : (
                 <>
