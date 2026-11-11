@@ -65,7 +65,7 @@ export default async function Home() {
 
   return (
     <main className="mx-auto max-w-3xl p-6">
-      <h1 className="mb-6 text-xl font-bold">F1 Dashboard!!!</h1>
+      <h1 className="mb-6 text-xl font-bold">F1 Dashboard</h1>
 
       <section className="mb-8 rounded-lg border p-4">
         <h2 className="mb-2 text-xl font-semibold">Next race</h2>
