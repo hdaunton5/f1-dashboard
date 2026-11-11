@@ -17,6 +17,13 @@ type Race = {
   };
 };
 
+type ConstructorStanding = {
+  position: string;
+  points: string;
+  wins: string;
+  Constructor: { constructorId: string; name: string };
+};
+
 async function getJson(path: string) {
   const res = await fetch(`${BASE}/${path}`, { next: { revalidate: 3600 } });
   if (!res.ok) throw new Error(`API error ${res.status}`);
@@ -24,15 +31,18 @@ async function getJson(path: string) {
 }
 
 export default async function Home() {
-  const [standingsData, nextData] = await Promise.all([
-    getJson("driverstandings.json"),
-    getJson("next.json"),
-  ]);
+  const [standingsData, nextData, constructorsData] = await Promise.all([
+  getJson("driverstandings.json"),
+  getJson("next.json"),
+  getJson("constructorstandings.json"),
+]);
+
 
   const standings: DriverStanding[] =
     standingsData.MRData.StandingsTable.StandingsLists[0]?.DriverStandings ?? [];
   const nextRace: Race | undefined = nextData.MRData.RaceTable.Races[0];
-
+  const constructors: ConstructorStanding[] =
+    constructorsData.MRData.StandingsTable.StandingsLists[0]?.ConstructorStandings ?? [];
   return (
     <main className="mx-auto max-w-3xl p-6">
       <h1 className="mb-6 text-xl font-bold">F1 Dashboard!!!</h1>
@@ -51,6 +61,30 @@ export default async function Home() {
           <p>No more races this season.</p>
         )}
       </section>
+
+      <section className="mt-8">
+  <h2 className="mb-2 text-xl font-semibold">Constructor standings</h2>
+  <table className="w-full text-left">
+    <thead>
+      <tr className="border-b">
+        <th className="py-2">Pos</th>
+        <th>Team</th>
+        <th>Wins</th>
+        <th>Points</th>
+      </tr>
+    </thead>
+    <tbody>
+      {constructors.map((c) => (
+        <tr key={c.Constructor.constructorId} className="border-b">
+          <td className="py-2">{c.position}</td>
+          <td>{c.Constructor.name}</td>
+          <td>{c.wins}</td>
+          <td>{c.points}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</section>
 
       <section>
         <h2 className="mb-2 text-xl font-semibold">Driver standings</h2>
