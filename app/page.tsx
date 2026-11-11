@@ -463,7 +463,7 @@ export default async function Home() {
       <footer className="border-t border-[#D5D8DE]">
         <p className="mx-auto max-w-6xl px-5 py-6 text-sm text-[#5F6673]">
           Data from the Jolpica F1 API, refreshed hourly. Team colours are
-          approximate.
+          approximate. Created by HD
         </p>
       </footer>
     </div>
